@@ -1,15 +1,16 @@
 # 139. Word Break
 
 def wordBreak(s: str, wordDict: list[str]) -> bool:
-  i, j = 0, 0
-  d = set(wordDict)
+  wordl = set(wordDict)
+  dp = [False] * (len(s)+1)
+  dp[0] = True
 
-  while i < len(s):
-    if s[j:i+1] in d:
-      j = i+1
-    i += 1
-  
-  return j == i
+  for i in range(len(s)):
+    for j in range(i, len(s)):
+      dp[j+1] = True if dp[i] and s[i:j+1] in wordl else dp[j+1]
+
+  return dp[-1]
+
 s = "leetcode"
 wordDict = ["leet", "code"]
 print(wordBreak(s, wordDict))
